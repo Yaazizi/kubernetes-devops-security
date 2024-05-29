@@ -1,6 +1,8 @@
 pipeline {
     agent any
     environment {
+        DOCKER_USERNAME = 'yasserazizi756'
+        DOCKER_PASSWORD = 'Yasser722@722'
         DOCKER_CREDENTIALS = credentials('docker-hub')
         GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
     }
@@ -29,6 +31,7 @@ pipeline {
                 withDockerRegistry([credentialsId: 'docker-hub', url: 'https://index.docker.io/v1/']) {
                     script {
                         sh 'printenv'
+                        sh "echo '$DOCKER_PASSWORD' | docker login -u $DOCKER_USERNAME --password-stdin https://index.docker.io/v1/"
                         docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS) {
                             sh "docker build -t docker.io/yasserazizi756/numeric-app:$GIT_COMMIT ."
                             sh "docker push docker.io/yasserazizi756/numeric-app:$GIT_COMMIT"
