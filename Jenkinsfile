@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        DOCKER_CREDENTIALS = credentials('docker-hub')
+    }
 
     stages {
         stage('Build Artifact') {
@@ -20,9 +23,7 @@ pipeline {
                 }
             }
         }
-     environment {
-        DOCKER_CREDENTIALS = credentials('docker-hub')
-    }
+
         stage('Docker Bulid and Push'){
           steps{
             withDockerRegistry([credentialsId:"$DOCKER_CREDENTIALS_USR",url:""]){
