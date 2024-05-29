@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
     environment {
@@ -29,9 +30,9 @@ pipeline {
                 withDockerRegistry([credentialsId: 'docker-hub', url: 'https://index.docker.io/v1/']) {
                     script {
                         sh 'printenv'
-                        sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
-                        sh 'docker build -t docker.io/yasserazizi756/numeric-app:$GIT_COMMIT .'
-                        sh 'docker push docker.io/yasserazizi756/numeric-app:$GIT_COMMIT'
+                        sh "docker login --username=$DOCKER_CREDENTIALS_USR --password=$DOCKER_CREDENTIALS_PSW"
+                        sh "docker build -t docker.io/yasserazizi756/numeric-app:$GIT_COMMIT ."
+                        sh "docker push docker.io/yasserazizi756/numeric-app:$GIT_COMMIT"
                     }
                 }
             }
