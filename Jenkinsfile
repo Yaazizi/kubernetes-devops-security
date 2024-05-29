@@ -20,5 +20,13 @@ pipeline {
                 }
             }
         }
+
+        stage('Docker Bulid and Push'){
+          steps{
+              sh 'printenv'
+              sh 'docker build -t yasserazizi756/numeric-app:""$GIT_COMMIT"" .'
+              sh  'docker push -t yasserazizi756/numeric-app:""$GIT_COMMIT""'
+          }  
+        }
     }
 }
